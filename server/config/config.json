@@ -1,0 +1,24 @@
+{
+    "development": {
+      "username": "your_database_username",
+      "password": "your_database_password",
+      "database": "your_database_name",
+      "host": "your_database_host",
+      "dialect": "postgres"
+    },
+    "test": {
+      "username": "your_database_username",
+      "password": "your_database_password",
+      "database": "your_database_name",
+      "host": "your_database_host",
+      "dialect": "postgres"
+    },
+    "production": {
+      "username": "your_database_username",
+      "password": "your_database_password",
+      "database": "your_database_name",
+      "host": "your_database_host",
+      "dialect": "postgres"
+    }
+  }
+  
