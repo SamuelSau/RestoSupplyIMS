@@ -26,18 +26,62 @@ const User = {
 	},
 };
 
-const findOne = async (email) => {
-	const sqlQuery = `
-      SELECT * FROM Users
-      WHERE email = $1;
-    `;
 
-	const result = await query(sqlQuery, [email]);
+const createUser = async (user) => {
+  const sqlQuery = `
+    INSERT INTO Users (email, password, first_name, last_name, job_title)
+    VALUES ($1, $2, $3, $4, $5)
+    RETURNING *;
+  `;
+  const result = await query(sqlQuery, [
+    user.email,
+    user.password,
+    user.first_name,
+    user.last_name,
+    user.job_title,
+  ]);
+  return result.rows[0];
+};
 
-	return result.rows[0];
+const getUser = async (id) => {
+  const sqlQuery = `
+    SELECT * FROM Users
+    WHERE email = $1;
+  `;
+  const result = await query(sqlQuery, [id]);
+  return result.rows[0];
+};
+
+const updateUser = async (id, user) => {
+  const sqlQuery = `
+    UPDATE Users
+    SET email = $1, password = $2, first_name = $3, last_name = $4, job_title = $5
+    WHERE u_id = $6
+    RETURNING *;
+  `;
+  const result = await query(sqlQuery, [
+    user.email,
+    user.password,
+    user.first_name,
+    user.last_name,
+    user.job_title,
+    id,
+  ]);
+  return result.rows[0];
+};
+
+const deleteUser = async (id) => {
+  const sqlQuery = `
+    DELETE FROM Users
+    WHERE u_id = $1;
+  `;
+  await query(sqlQuery, [id]);
 };
 
 module.exports = {
 	...User,
-	findOne,
+  createUser,
+  getUser,
+  updateUser,
+  deleteUser,
 };

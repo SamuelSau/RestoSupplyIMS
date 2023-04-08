@@ -2,13 +2,16 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 3001;
+
 const db = require('./config/db');
-const loginRoute = require('./routes/loginRoute');
-const ordersRouter = require('./routes/orderRoute');
 const session = require('express-session');
 const passport = require('passport');
 const auth = require('./middlewares/auth'); 
 const sessionSecret = process.env.SESSION_SECRET;
+
+const loginRoute = require('./routes/loginRoute');
+const ordersRouter = require('./routes/orderRoute');
+const userRoutes = require('./routes/userRoute');
 
 // Set up the session middleware
 app.use(session({
@@ -35,7 +38,7 @@ app.use((err, req, res, next) => {
 // Routes
 app.use('/orders', ordersRouter);
 app.use('/api', loginRoute);
-
+app.use('/api/users', userRoutes);
 
 //Database connection
 db.testConnection();
