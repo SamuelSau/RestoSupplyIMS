@@ -46,10 +46,67 @@ const createOrder = async (order) => {
   return result.rows[0];
 };
 
-// Other query functions for the Orders table...
+const getOrder = async (orderId) => {
+  const selectSql = `
+    SELECT * FROM Orders
+    WHERE o_id = $1;
+  `;
+
+  const values = [orderId];
+  const result = await query(selectSql, values);
+
+  return result.rows[0];
+};
+
+const updateOrder = async (orderId, updatedOrderData) => {
+  const updateSql = `
+    UPDATE Orders
+    SET o_cust_id = $1, o_product_id = $2, o_date = $3, o_ship_date = $4, o_price = $5
+    WHERE o_id = $6
+    RETURNING *;
+  `;
+
+  const values = [
+    updatedOrderData.cust_id,
+    updatedOrderData.product_id,
+    updatedOrderData.date,
+    updatedOrderData.ship_date,
+    updatedOrderData.price,
+    orderId,
+  ];
+
+  const result = await query(updateSql, values);
+
+  return result.rows[0];
+};
+
+const deleteOrder = async (orderId) => {
+  const deleteSql = `
+    DELETE FROM Orders
+    WHERE o_id = $1;
+  `;
+
+  const values = [orderId];
+  await query(deleteSql, values);
+};
+
+//Retrieve all orders
+const listOrders = async () => {
+  const selectSql = `
+    SELECT * FROM Orders;
+  `;
+
+  const result = await query(selectSql);
+
+  return result.rows;
+};
+
 
 module.exports = {
   ...Order,
   createOrder,
-  // Export other query functions...
+  getOrder,
+  updateOrder,
+  deleteOrder,
+  listOrders
 };

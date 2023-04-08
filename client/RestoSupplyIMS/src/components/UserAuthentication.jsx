@@ -6,10 +6,27 @@ const UserAuthentication = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    // Perform the login process here (e.g., call an API, validate credentials, etc.)
-    console.log('Email:', email, 'Password:', password);
+    try {
+    const response = await fetch('http://127.0.0.1:3001/api/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, password }),
+    });
+
+    if (response.ok) {
+      // Handle successful login (e.g., redirect to a different page, store user data, etc.)
+      console.log('Login successful!');
+    } else {
+      // Handle errors (e.g., display an error message, prompt the user to try again, etc.)
+      console.log('Error during login:', response.statusText);
+    }
+  } catch (error) {
+    console.error('Error during login:', error);
+  }
   };
 
   return (

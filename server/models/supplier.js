@@ -1,3 +1,5 @@
+const { query } = require('../config/db');
+
 const Supplier = {
     tableName: "Suppliers",
     columns: {
