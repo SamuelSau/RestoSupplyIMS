@@ -55,7 +55,7 @@ const UserAuthentication = () => {
           margin="normal"
           required
         />
-        <Button type="submit" variant="contained" color="primary">
+        <Button type="submit" variant="contained" color="secondary">
           Login
         </Button>
       </form>

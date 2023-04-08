@@ -12,6 +12,8 @@ const sessionSecret = process.env.SESSION_SECRET;
 const loginRoute = require('./routes/loginRoute');
 const ordersRouter = require('./routes/orderRoute');
 const userRoutes = require('./routes/userRoute');
+const supplierRoute = require('./routes/supplierRoute');
+
 
 // Set up the session middleware
 app.use(session({
@@ -36,9 +38,10 @@ app.use((err, req, res, next) => {
 });
 
 // Routes
-app.use('/orders', ordersRouter);
 app.use('/api', loginRoute);
+app.use('/api/orders', ordersRouter);
 app.use('/api/users', userRoutes);
+app.use('/api/suppliers', supplierRoute);
 
 //Database connection
 db.testConnection();

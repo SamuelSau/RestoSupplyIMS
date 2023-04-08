@@ -6,7 +6,7 @@ passport.use(new LocalStrategy(
   { usernameField: 'email' },
   async (email, password, done) => {
     // Find the user by email
-    const user = await User.findOne({ where: { email } });
+    const user = await User.getUser({ where: { email } });
 
     // Check if the user exists and the password is correct
     if (!user || user.password !== password) {
