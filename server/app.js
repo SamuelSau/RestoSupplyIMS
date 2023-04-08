@@ -13,7 +13,7 @@ const loginRoute = require('./routes/loginRoute');
 const ordersRouter = require('./routes/orderRoute');
 const userRoutes = require('./routes/userRoute');
 const supplierRoute = require('./routes/supplierRoute');
-
+const customerRoute = require('./routes/customerRoute');
 
 // Set up the session middleware
 app.use(session({
@@ -42,6 +42,8 @@ app.use('/api', loginRoute);
 app.use('/api/orders', ordersRouter);
 app.use('/api/users', userRoutes);
 app.use('/api/suppliers', supplierRoute);
+app.use('/api/customers', customerRoute);
+
 
 //Database connection
 db.testConnection();
