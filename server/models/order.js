@@ -28,7 +28,7 @@ const Order = {
       type: "DATE",
     },
     o_price: {
-      type: "REAL",
+      type: "NUMERIC(10,2)",
     },
   },
 };

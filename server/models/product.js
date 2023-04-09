@@ -18,7 +18,7 @@ const Product = {
       },
     },
     p_price: {
-      type: "REAL",
+      type: "NUMERIC(10,2)",
     },
     p_quantity: {
       type: "INTEGER",

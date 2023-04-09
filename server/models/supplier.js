@@ -11,7 +11,7 @@ const Supplier = {
       type: "CHAR(100)",
     },
     s_phone: {
-      type: "INTEGER(10)",
+      type: "BIGINT",
     },
     s_email: {
       type: "VARCHAR(200)",
@@ -46,6 +46,14 @@ const getSupplier = async (id) => {
   return result.rows[0];
 };
 
+const getAllSuppliers = async () => {
+  const sqlQuery = `
+    SELECT * FROM Suppliers;
+  `;
+  const result = await query(sqlQuery);
+  return result.rows;
+};
+
 const updateSupplier = async (id, supplier) => {
   const sqlQuery = `
     UPDATE Suppliers
@@ -75,6 +83,7 @@ module.exports = {
   ...Supplier,
   createSupplier,
   getSupplier,
+  getAllSuppliers,
   updateSupplier,
   deleteSupplier,
 };

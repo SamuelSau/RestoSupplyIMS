@@ -4,6 +4,7 @@ const supplierController = require('../controllers/supplierController');
 
 router.post('/', supplierController.createSupplier);
 router.get('/:id', supplierController.getSupplier);
+router.get('/', supplierController.getAllSuppliers);
 router.put('/:id', supplierController.updateSupplier);
 router.delete('/:id', supplierController.deleteSupplier);
 

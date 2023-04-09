@@ -10,6 +10,16 @@ const createSupplier = async (req, res) => {
   }
 };
 
+const getAllSuppliers = async (req, res) => {
+  try {
+    const suppliers = await Supplier.getAllSuppliers();
+    res.status(200).json(suppliers);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error fetching suppliers", error });
+  }
+};
+
 const getSupplier = async (req, res) => {
   try {
     const id = req.params.id;
@@ -44,6 +54,7 @@ const deleteSupplier = async (req, res) => {
 module.exports = {
   createSupplier,
   getSupplier,
+  getAllSuppliers,
   updateSupplier,
   deleteSupplier,
 };

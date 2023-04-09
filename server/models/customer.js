@@ -11,7 +11,7 @@ const Customer = {
       type: "CHAR(100)",
     },
     c_phone: {
-      type: "INTEGER(10)",
+      type: "BIGINT",
     },
     c_email: {
       type: "VARCHAR(200)",
