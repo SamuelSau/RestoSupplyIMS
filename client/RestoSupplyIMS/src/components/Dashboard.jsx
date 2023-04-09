@@ -2,7 +2,6 @@ import React from 'react';
 import SupplierManagement from './SupplierManagement';
 //import ProductManagement from './ProductManagement';
 //import OrderManagement from './OrderManagement';
-//import InventoryManagement from './InventoryManagement';
 //import CustomerManagement from './CustomerManagement';
 
 const Dashboard = () => {

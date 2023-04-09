@@ -12,6 +12,16 @@ export const getSuppliers = async () => {
 	}
 };
 
+export const getAllSuppliers = async () => {
+	try {
+		const response = await axios.get(API_URL);
+		return response.data;
+	} catch (error) {
+		console.error('Error fetching suppliers', error);
+		return [];
+	}
+};
+
 export const addSupplier = async (supplierData) => {
 	try {
 		const response = await axios.post(API_URL, supplierData);
