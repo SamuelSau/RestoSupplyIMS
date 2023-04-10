@@ -27,14 +27,15 @@ const User = {
 };
 
 const createUser = async (user) => {
+	
 	const sqlQuery = `
     INSERT INTO users (u_email, u_password, first_name, last_name, job_title)
     VALUES ($1, $2, $3, $4, $5)
     RETURNING *;
   `;
 	const result = await query(sqlQuery, [
-		user.email,
-		user.password,
+		user.u_email,
+		user.u_password,
 		user.first_name,
 		user.last_name,
 		user.job_title,
@@ -44,37 +45,47 @@ const createUser = async (user) => {
 
 const getUser = async (identifier) => {
 	const isEmail = identifier.includes('@');
+
 	const sqlQuery = `
 	  SELECT * FROM users
 	  WHERE ${isEmail ? 'u_email' : 'u_id'} = $1;
 	`;
 	const result = await query(sqlQuery, [identifier]);
-  
+
 	return result.rows[0];
-  };
-  
+};
+
+const getUsers = async () => {
+	const sqlQuery = `
+	  SELECT * FROM users;
+	`;
+	const result = await query(sqlQuery);
+	return result.rows;
+};
 
 const updateUser = async (id, user) => {
 	const sqlQuery = `
-    UPDATE Users
+    UPDATE users
     SET u_email = $1, u_password = $2, first_name = $3, last_name = $4, job_title = $5
     WHERE u_id = $6
     RETURNING *;
   `;
 	const result = await query(sqlQuery, [
-		user.email,
-		user.password,
+		user.u_email,
+		user.u_password,
 		user.first_name,
 		user.last_name,
 		user.job_title,
-		id,
+		user.u_id,
 	]);
+
 	return result.rows[0];
 };
 
 const deleteUser = async (id) => {
+	
 	const sqlQuery = `
-    DELETE FROM Users
+    DELETE FROM users
     WHERE u_id = $1;
   `;
 	await query(sqlQuery, [id]);
@@ -84,6 +95,7 @@ module.exports = {
 	...User,
 	createUser,
 	getUser,
+	getUsers,
 	updateUser,
 	deleteUser,
 };

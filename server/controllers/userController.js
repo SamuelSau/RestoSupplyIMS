@@ -20,12 +20,22 @@ const getUser = async (req, res) => {
   }
 };
 
+const getUsers = async (req, res) => {
+  try {
+    const users = await User.getUsers();
+    res.status(200).json(users);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching users", error });
+  }
+};
+
 const updateUser = async (req, res) => {
   try {
     const id = req.params.id;
     const updatedUserData = req.body;
     const updatedUser = await User.updateUser(id, updatedUserData);
     res.status(200).json(updatedUser);
+    
   } catch (error) {
     res.status(500).json({ message: "Error updating user", error });
   }
@@ -44,6 +54,7 @@ const deleteUser = async (req, res) => {
 module.exports = {
   createUser,
   getUser,
+  getUsers,
   updateUser,
   deleteUser,
 };
