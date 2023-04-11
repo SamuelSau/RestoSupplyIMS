@@ -20,6 +20,16 @@ const getCustomer = async (req, res) => {
   }
 };
 
+const getCustomers = async (req, res) => {
+  try {
+    const customers = await Customer.getAllCustomers();
+    res.status(200).json(customers);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error fetching customers", error });
+  }
+};
+
 const updateCustomer = async (req, res) => {
   try {
     const id = req.params.id;
@@ -44,6 +54,7 @@ const deleteCustomer = async (req, res) => {
 module.exports = {
   createCustomer,
   getCustomer,
+  getCustomers,
   updateCustomer,
   deleteCustomer,
 };

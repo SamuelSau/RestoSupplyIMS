@@ -21,6 +21,11 @@ import {
 } from '../api/supplierAPI';
 
 const useStyles = makeStyles((theme) => ({
+	title: {
+		color: 'black',
+		textAlign: 'center',
+		fontFamily: 'Roboto',
+	},
 	form: {
 		display: 'flex',
 		flexDirection: 'column',
@@ -73,7 +78,7 @@ const SupplierManagement = () => {
 
 	return (
 		<Container>
-			<Typography variant='h4' gutterBottom>
+			<Typography variant='h4' gutterBottom className={classes.title}>
 				Supplier Management
 			</Typography>
 			<form onSubmit={handleSubmit} className={classes.form}>

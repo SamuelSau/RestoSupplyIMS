@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import userAPI from '../api/userAPI';
+import {
+	getUsers,
+	getUser,
+	createUser,
+	updateUser,
+	deleteUser,
+} from '../api/userAPI';
 import {
 	Container,
 	Typography,
