@@ -41,9 +41,9 @@ const deleteOrder = async (req, res) => {
   }
 };
 
-const listOrders = async (req, res) => {
+const getOrders = async (req, res) => {
   try {
-    const orders = await Order.listOrders();
+    const orders = await Order.getOrders();
     res.status(200).json(orders);
   } catch (error) {
     res.status(500).json({ message: "Error fetching orders", error });
@@ -53,7 +53,7 @@ const listOrders = async (req, res) => {
 module.exports = {
   createOrder,
   getOrder,
+  getOrders,
   updateOrder,
   deleteOrder,
-  listOrders,
 };

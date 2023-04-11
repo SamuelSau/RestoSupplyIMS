@@ -1,7 +1,7 @@
 const { query } = require('../config/db');
 
 const Order = {
-  tableName: "Orders",
+  tableName: "orders",
   columns: {
     o_id: {
       type: "INTEGER",
@@ -10,14 +10,14 @@ const Order = {
     o_cust_id: {
       type: "INTEGER",
       foreignKey: {
-        table: "Customers",
+        table: "customers",
         column: "c_id",
       },
     },
     o_product_id: {
       type: "INTEGER",
       foreignKey: {
-        table: "Products",
+        table: "products",
         column: "p_id",
       },
     },
@@ -35,7 +35,7 @@ const Order = {
 
 const createOrder = async (order) => {
   const insertSql = `
-    INSERT INTO Orders (o_cust_id, o_product_id, o_date, o_ship_date, o_price)
+    INSERT INTO orders (o_cust_id, o_product_id, o_date, o_ship_date, o_price)
     VALUES ($1, $2, $3, $4, $5)
     RETURNING *;
   `;
@@ -48,7 +48,7 @@ const createOrder = async (order) => {
 
 const getOrder = async (orderId) => {
   const selectSql = `
-    SELECT * FROM Orders
+    SELECT * FROM orders
     WHERE o_id = $1;
   `;
 
@@ -60,7 +60,7 @@ const getOrder = async (orderId) => {
 
 const updateOrder = async (orderId, updatedOrderData) => {
   const updateSql = `
-    UPDATE Orders
+    UPDATE orders
     SET o_cust_id = $1, o_product_id = $2, o_date = $3, o_ship_date = $4, o_price = $5
     WHERE o_id = $6
     RETURNING *;
@@ -82,7 +82,7 @@ const updateOrder = async (orderId, updatedOrderData) => {
 
 const deleteOrder = async (orderId) => {
   const deleteSql = `
-    DELETE FROM Orders
+    DELETE FROM orders
     WHERE o_id = $1;
   `;
 
@@ -91,9 +91,9 @@ const deleteOrder = async (orderId) => {
 };
 
 //Retrieve all orders
-const listOrders = async () => {
+const getOrders = async () => {
   const selectSql = `
-    SELECT * FROM Orders;
+    SELECT * FROM orders;
   `;
 
   const result = await query(selectSql);
@@ -106,7 +106,7 @@ module.exports = {
   ...Order,
   createOrder,
   getOrder,
+  getOrders,
   updateOrder,
   deleteOrder,
-  listOrders
 };

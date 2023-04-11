@@ -1,7 +1,7 @@
 const { query } = require('../config/db');
 
 const Product = {
-  tableName: "Products",
+  tableName: "products",
   columns: {
     p_id: {
       type: "INTEGER",
@@ -13,7 +13,7 @@ const Product = {
     p_supp_id: {
       type: "INTEGER",
       foreignKey: {
-        table: "Suppliers",
+        table: "suppliers",
         column: "s_id",
       },
     },
@@ -28,7 +28,7 @@ const Product = {
 
 const createProduct = async (product) => {
   const sqlQuery = `
-    INSERT INTO Products (p_name, p_supp_id, p_price, p_quantity)
+    INSERT INTO products (p_name, p_supp_id, p_price, p_quantity)
     VALUES ($1, $2, $3, $4)
     RETURNING *;
   `;
@@ -43,16 +43,24 @@ const createProduct = async (product) => {
 
 const getProduct = async (id) => {
   const sqlQuery = `
-    SELECT * FROM Products
+    SELECT * FROM products
     WHERE p_id = $1;
   `;
   const result = await query(sqlQuery, [id]);
   return result.rows[0];
 };
 
+const getProducts = async () => {
+  const sqlQuery = `
+    SELECT * FROM products;
+  `;
+  const result = await query(sqlQuery);
+  return result.rows;
+};
+
 const updateProduct = async (id, product) => {
   const sqlQuery = `
-    UPDATE Products
+    UPDATE products
     SET p_name = $1, p_supp_id = $2, p_price = $3, p_quantity = $4
     WHERE p_id = $5
     RETURNING *;
@@ -69,7 +77,7 @@ const updateProduct = async (id, product) => {
 
 const deleteProduct = async (id) => {
   const sqlQuery = `
-    DELETE FROM Products
+    DELETE FROM products
     WHERE p_id = $1;
   `;
   await query(sqlQuery, [id]);
@@ -79,6 +87,7 @@ module.exports = {
   ...Product,
   createProduct,
   getProduct,
+  getProducts,
   updateProduct,
   deleteProduct,
 };

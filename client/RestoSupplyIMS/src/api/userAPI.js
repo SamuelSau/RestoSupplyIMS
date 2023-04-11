@@ -2,9 +2,8 @@ import axios from 'axios';
 
 const API_URL = 'http://127.0.0.1:3001/api/users';
 
-const createUser = async (userData) => {
+export const createUser = async (userData) => {
   try {
-    
     const response = await axios.post(API_URL, userData);
     return response.data;
   } catch (error) {
@@ -13,7 +12,7 @@ const createUser = async (userData) => {
   }
 };
 
-const getUser = async (id) => {
+export const getUser = async (id) => {
   try {
     const response = await axios.get(`${API_URL}/${id}`);
     return response.data;
@@ -23,7 +22,7 @@ const getUser = async (id) => {
   }
 };
 
-const getUsers = async () => {
+export const getUsers = async () => {
     try {
         const response = await axios.get(API_URL);
         return response.data;
@@ -33,7 +32,7 @@ const getUsers = async () => {
     }
 };
 
-const updateUser = async (id, userData) => {
+export const updateUser = async (id, userData) => {
   try {
     const response = await axios.put(`${API_URL}/${id}`, userData);
     return response.data;
@@ -43,7 +42,7 @@ const updateUser = async (id, userData) => {
   }
 };
 
-const deleteUser = async (id) => {
+export const deleteUser = async (id) => {
   try {
     await axios.delete(`${API_URL}/${id}`);
   } catch (error) {
@@ -52,10 +51,4 @@ const deleteUser = async (id) => {
   }
 };
 
-export default {
-  createUser,
-  getUser,
-  getUsers,
-  updateUser,
-  deleteUser,
-};
+

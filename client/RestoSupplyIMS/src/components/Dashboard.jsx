@@ -1,6 +1,9 @@
 import React from 'react';
 import SupplierManagement from './SupplierManagement';
 import CustomerManagement from './CustomerManagement';
+import UserManagement from './UserManagement';
+import ProductManagement from './ProductManagement';
+import OrderManagement from './OrderManagement';
 import { Container, Typography, Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -24,7 +27,6 @@ const useStyles = makeStyles((theme) => ({
 
 const Dashboard = () => {
 	const classes = useStyles();
-
 	return (
 		<Container>
 			<Box className={classes.dashboard}>
@@ -32,11 +34,11 @@ const Dashboard = () => {
 					Welcome to the Restaurant Inventory Management System
 				</Typography>
 				<Box className={classes.dashboardContent}>
-					<SupplierManagement />
+					{<SupplierManagement />}
 					{<CustomerManagement />}
-					{/*<ProductManagement />*/}
-					{/*<OrderManagement />*/}
-					{/*<InventoryManagement />*/}
+					{<UserManagement />}
+					{<ProductManagement />}
+					{<OrderManagement />}
 				</Box>
 			</Box>
 		</Container>
