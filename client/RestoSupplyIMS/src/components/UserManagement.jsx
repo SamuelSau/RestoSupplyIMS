@@ -1,28 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import {
+	Container,
+	Typography,
+	TextField,
+	Button,
+	Table,
+	TableBody,
+	TableCell,
+	TableHead,
+	TableRow,
+	IconButton,
+} from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
+import {
 	getUsers,
 	getUser,
 	createUser,
 	updateUser,
 	deleteUser,
 } from '../api/userAPI';
-import {
-	Container,
-	Typography,
-	TextField,
-	Button,
-	List,
-	ListItem,
-	ListItemText,
-	ListItemSecondaryAction,
-	IconButton,
-} from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
-import EditIcon from '@material-ui/icons/Edit';
-import DeleteIcon from '@material-ui/icons/Delete';
 
 const useStyles = makeStyles((theme) => ({
-	title:{
+	root: {
+		color: 'black',
+	},
+	title: {
 		color: 'black',
 		textAlign: 'center',
 		fontFamily: 'Roboto',
@@ -31,7 +35,19 @@ const useStyles = makeStyles((theme) => ({
 		display: 'flex',
 		flexDirection: 'column',
 		gap: theme.spacing(2),
-		marginBottom: theme.spacing(4),
+		marginBottom: theme.spacing(2),
+	},
+	buttonGroup: {
+		display: 'flex',
+		justifyContent: 'flex-end',
+		gap: theme.spacing(2),
+	},
+	addButton: {
+		backgroundColor: theme.palette.success.main,
+		'&:hover': {
+			backgroundColor: theme.palette.success.dark,
+		},
+		color: 'white',
 	},
 }));
 
@@ -46,6 +62,13 @@ const UserManagement = () => {
 		last_name: '',
 		job_title: '',
 	});
+
+	const columns = [
+		{ field: 'u_email', headerName: 'Email' },
+		{ field: 'first_name', headerName: 'First Name' },
+		{ field: 'last_name', headerName: 'Last Name' },
+		{ field: 'job_title', headerName: 'Job Title' },
+	];
 
 	useEffect(() => {
 		fetchUsers();
@@ -74,6 +97,17 @@ const UserManagement = () => {
 		fetchUsers();
 	};
 
+	const handleCancel = () => {
+		setFormData({
+			u_email: '',
+			u_password: '',
+			first_name: '',
+			last_name: '',
+			job_title: '',
+		});
+		setSelectedUser(null);
+	};
+
 	const handleDelete = async (id) => {
 		await deleteUser(id);
 		fetchUsers();
@@ -85,7 +119,7 @@ const UserManagement = () => {
 	};
 
 	return (
-		<Container>
+		<Container className={classes.root}>
 			<Typography variant='h4' gutterBottom className={classes.title}>
 			</Typography>
 			<form onSubmit={handleSubmit} className={classes.form}>
@@ -124,31 +158,42 @@ const UserManagement = () => {
 						setFormData({ ...formData, job_title: e.target.value })
 					}
 				/>
-				<Button variant='contained' color='primary' type='submit'>
+				<div className={classes.buttonGroup}>
+				<Button variant='contained' color='primary' type='submit' className={classes.addButton}>
 					{selectedUser ? 'Update' : 'Add'} User
 				</Button>
+				<Button variant='contained' color='secondary' onClick={handleCancel}>
+					Cancel
+				</Button>
+				</div>
 			</form>
-			<Typography variant='h5' gutterBottom>
-				User List
-			</Typography>
-			<List>
-				{users.map((user) => (
-					<ListItem key={user.u_id}>
-						<ListItemText
-							primary={`${user.first_name} ${user.last_name}`}
-							secondary={`${user.u_email} - ${user.job_title}`}
-						/>
-						<ListItemSecondaryAction>
-							<IconButton edge='end' onClick={() => handleEdit(user)}>
-								<EditIcon />
-							</IconButton>
-							<IconButton edge='end' onClick={() => handleDelete(user.u_id)}>
-								<DeleteIcon />
-							</IconButton>
-						</ListItemSecondaryAction>
-					</ListItem>
-				))}
-			</List>
+			<Table className={classes.table}>
+				<TableHead>
+					<TableRow>
+						{columns.map((column) => (
+							<TableCell key={column.field}>{column.headerName}</TableCell>
+						))}
+						<TableCell>Actions</TableCell>
+					</TableRow>
+				</TableHead>
+				<TableBody>
+					{users.map((user) => (
+						<TableRow key={user.u_id}>
+							{columns.map((column) => (
+								<TableCell key={column.field}>{user[column.field]}</TableCell>
+							))}
+							<TableCell>
+								<IconButton edge='end' onClick={() => handleEdit(user)}>
+									<EditIcon />
+								</IconButton>
+								<IconButton edge='end' onClick={() => handleDelete(user.u_id)}>
+									<DeleteIcon />
+								</IconButton>
+							</TableCell>
+						</TableRow>
+					))}
+				</TableBody>
+			</Table>
 		</Container>
 	);
 };

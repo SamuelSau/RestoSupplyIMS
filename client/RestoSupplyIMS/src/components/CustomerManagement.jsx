@@ -30,7 +30,6 @@ import {
 const useStyles = makeStyles((theme) => ({
 	root: {
 		color: 'black',
-		
 	},
 	title: {
 		color: 'black',
@@ -45,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 	buttonGroup: {
 		display: 'flex',
-    justifyContent: 'flex-end',
+		justifyContent: 'flex-end',
 		gap: theme.spacing(2),
 	},
 	grid: {
@@ -57,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
 		'&:hover': {
 			backgroundColor: theme.palette.success.dark,
 		},
-    color: 'white',
+		color: 'white',
 	},
 }));
 
@@ -89,14 +88,14 @@ const CustomerManagement = ({ searchQuery }) => {
 		setCustomers(fetchedCustomers);
 	};
 
-  const filteredCustomers = customers.filter(customer => {
-    return (
-      customer.c_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      customer.c_phone.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      customer.c_email.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      customer.c_address.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-  });
+	const filteredCustomers = customers.filter((customer) => {
+		return (
+			customer.c_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+			customer.c_phone.toLowerCase().includes(searchQuery.toLowerCase()) ||
+			customer.c_email.toLowerCase().includes(searchQuery.toLowerCase()) ||
+			customer.c_address.toLowerCase().includes(searchQuery.toLowerCase())
+		);
+	});
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
