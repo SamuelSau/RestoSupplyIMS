@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const UserManagement = () => {
+const UserManagement = ({ searchQuery }) => {
 	const classes = useStyles();
 	const [users, setUsers] = useState([]);
 	const [selectedUser, setSelectedUser] = useState(null);
@@ -65,6 +65,7 @@ const UserManagement = () => {
 
 	const columns = [
 		{ field: 'u_email', headerName: 'Email' },
+		{ field: 'u_password', headerName: 'Password' },
 		{ field: 'first_name', headerName: 'First Name' },
 		{ field: 'last_name', headerName: 'Last Name' },
 		{ field: 'job_title', headerName: 'Job Title' },
@@ -78,6 +79,25 @@ const UserManagement = () => {
 		const fetchedUsers = await getUsers();
 		setUsers(fetchedUsers);
 	};
+
+	const filteredUsers = users.filter((user) => {
+		if (searchQuery === '0') {
+			return user.job_title == 0;
+		} else if (searchQuery === '1') {
+			return user.job_title == 1;
+		} else {
+			return (
+				user.u_email.toLowerCase().includes(searchQuery.toLowerCase()) ||
+				user.u_password.toLowerCase().includes(searchQuery.toLowerCase()) ||
+				user.first_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+				user.last_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+				user.job_title
+					.toString()
+					.toLowerCase()
+					.includes(searchQuery.toLowerCase())
+			);
+		}
+	});
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
@@ -120,51 +140,59 @@ const UserManagement = () => {
 
 	return (
 		<Container className={classes.root}>
-			<Typography variant='h4' gutterBottom className={classes.title}>
-			</Typography>
+			<Typography
+				variant='h4'
+				gutterBottom
+				className={classes.title}
+			></Typography>
 			<form onSubmit={handleSubmit} className={classes.form}>
 				<TextField
-					label='Email'
+					label='User Email'
 					value={formData.u_email}
 					onChange={(e) =>
 						setFormData({ ...formData, u_email: e.target.value })
 					}
 				/>
 				<TextField
-					label='Password'
+					label='User Password'
 					value={formData.u_password}
 					onChange={(e) =>
 						setFormData({ ...formData, u_password: e.target.value })
 					}
 				/>
 				<TextField
-					label='First Name'
+					label='User First Name'
 					value={formData.first_name}
 					onChange={(e) =>
 						setFormData({ ...formData, first_name: e.target.value })
 					}
 				/>
 				<TextField
-					label='Last Name'
+					label='User Last Name'
 					value={formData.last_name}
 					onChange={(e) =>
 						setFormData({ ...formData, last_name: e.target.value })
 					}
 				/>
 				<TextField
-					label='Job Title'
+					label='User Job Title'
 					value={formData.job_title}
 					onChange={(e) =>
 						setFormData({ ...formData, job_title: e.target.value })
 					}
 				/>
 				<div className={classes.buttonGroup}>
-				<Button variant='contained' color='primary' type='submit' className={classes.addButton}>
-					{selectedUser ? 'Update' : 'Add'} User
-				</Button>
-				<Button variant='contained' color='secondary' onClick={handleCancel}>
-					Cancel
-				</Button>
+					<Button
+						variant='contained'
+						color='primary'
+						type='submit'
+						className={classes.addButton}
+					>
+						{selectedUser ? 'Update' : 'Add'} User
+					</Button>
+					<Button variant='contained' color='secondary' onClick={handleCancel}>
+						Cancel
+					</Button>
 				</div>
 			</form>
 			<Table className={classes.table}>
@@ -177,7 +205,7 @@ const UserManagement = () => {
 					</TableRow>
 				</TableHead>
 				<TableBody>
-					{users.map((user) => (
+					{filteredUsers.map((user) => (
 						<TableRow key={user.u_id}>
 							{columns.map((column) => (
 								<TableCell key={column.field}>{user[column.field]}</TableCell>
