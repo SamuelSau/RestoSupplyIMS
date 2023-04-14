@@ -4,23 +4,28 @@ import {
 	Typography,
 	TextField,
 	Button,
-	List,
-	ListItem,
-	ListItemText,
-	ListItemSecondaryAction,
+	Table,
+	TableBody,
+	TableCell,
+	TableHead,
+	TableRow,
 	IconButton,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import {
+	getSupplier,
 	getSuppliers,
-	addSupplier,
+	createSupplier,
 	updateSupplier,
 	deleteSupplier,
 } from '../api/supplierAPI';
 
 const useStyles = makeStyles((theme) => ({
+	root: {
+		color: 'black',
+	},
 	title: {
 		color: 'black',
 		textAlign: 'center',
@@ -30,20 +35,41 @@ const useStyles = makeStyles((theme) => ({
 		display: 'flex',
 		flexDirection: 'column',
 		gap: theme.spacing(2),
-		marginBottom: theme.spacing(4),
+		marginBottom: theme.spacing(2),
+	},
+	buttonGroup: {
+		display: 'flex',
+		justifyContent: 'flex-end',
+		gap: theme.spacing(2),
+	},
+	addButton: {
+		backgroundColor: theme.palette.success.main,
+		'&:hover': {
+			backgroundColor: theme.palette.success.dark,
+		},
+		color: 'white',
 	},
 }));
 
-const SupplierManagement = () => {
+const SupplierManagement = ({ searchQuery }) => {
 	const classes = useStyles();
 	const [suppliers, setSuppliers] = useState([]);
 	const [selectedSupplier, setSelectedSupplier] = useState(null);
 	const [formData, setFormData] = useState({
+		s_id: '',
 		s_name: '',
 		s_phone: '',
 		s_email: '',
 		s_address: '',
 	});
+
+	const columns = [
+		{ field: 's_id', headerName: 'Supplier ID' },
+		{ field: 's_name', headerName: 'Supplier Name' },
+		{ field: 's_phone', headerName: 'Phone' },
+		{ field: 's_email', headerName: 'Email' },
+		{ field: 's_address', headerName: 'Address' },
+	];
 
 	useEffect(() => {
 		fetchSuppliers();
@@ -54,16 +80,46 @@ const SupplierManagement = () => {
 		setSuppliers(fetchedSuppliers);
 	};
 
+	const filteredSuppliers = suppliers.filter((supplier) => {
+		return (
+			supplier.s_id
+				.toString()
+				.toLowerCase()
+				.includes(searchQuery.toLowerCase()) ||
+			supplier.s_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+			supplier.s_phone.toLowerCase().includes(searchQuery.toLowerCase()) ||
+			supplier.s_email.toLowerCase().includes(searchQuery.toLowerCase()) ||
+			supplier.s_address.toLowerCase().includes(searchQuery.toLowerCase())
+		);
+	});
+
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		if (selectedSupplier) {
 			await updateSupplier(selectedSupplier.s_id, formData);
 		} else {
-			await addSupplier(formData);
+			await createSupplier(formData);
 		}
-		setFormData({ s_name: '', s_phone: '', s_email: '', s_address: '' });
+		setFormData({
+			s_id: '',
+			s_name: '',
+			s_phone: '',
+			s_email: '',
+			s_address: '',
+		});
 		setSelectedSupplier(null);
 		fetchSuppliers();
+	};
+
+	const handleCancel = () => {
+		setFormData({
+			s_id: '',
+			s_name: '',
+			s_phone: '',
+			s_email: '',
+			s_address: '',
+		});
+		setSelectedSupplier(null);
 	};
 
 	const handleDelete = async (id) => {
@@ -77,10 +133,17 @@ const SupplierManagement = () => {
 	};
 
 	return (
-		<Container>
+		<Container className={classes.root}>
 			<Typography variant='h4' gutterBottom className={classes.title}>
+				
 			</Typography>
 			<form onSubmit={handleSubmit} className={classes.form}>
+				{/* Add your TextField components here */}
+				<TextField
+					label='Supplier ID'
+					value={formData.s_id}
+					onChange={(e) => setFormData({ ...formData, s_id: e.target.value })}
+				/>
 				<TextField
 					label='Supplier Name'
 					value={formData.s_name}
@@ -107,34 +170,52 @@ const SupplierManagement = () => {
 						setFormData({ ...formData, s_address: e.target.value })
 					}
 				/>
-				<Button variant='contained' color='primary' type='submit'>
-					{selectedSupplier ? 'Update' : 'Add'} Supplier
-				</Button>
+				<div className={classes.buttonGroup}>
+					<Button
+						variant='contained'
+						color='inherit'
+						type='submit'
+						className={classes.addButton}
+					>
+						{selectedSupplier ? 'Update' : 'Add'} Supplier
+					</Button>
+					<Button variant='contained' color='secondary' onClick={handleCancel}>
+						Cancel
+					</Button>
+				</div>
 			</form>
-			<Typography variant='h5' gutterBottom>
-				Supplier List
-			</Typography>
-			<List>
-				{suppliers.map((supplier) => (
-					<ListItem key={supplier.s_id}>
-						<ListItemText
-							primary={supplier.s_name}
-							secondary={`${supplier.s_phone} - ${supplier.s_email} - ${supplier.s_address}`}
-						/>
-						<ListItemSecondaryAction>
-							<IconButton edge='end' onClick={() => handleEdit(supplier)}>
-								<EditIcon />
-							</IconButton>
-							<IconButton
-								edge='end'
-								onClick={() => handleDelete(supplier.s_id)}
-							>
-								<DeleteIcon />
-							</IconButton>
-						</ListItemSecondaryAction>
-					</ListItem>
-				))}
-			</List>
+			<Table className={classes.table}>
+				<TableHead>
+					<TableRow>
+						{columns.map((column) => (
+							<TableCell key={column.field}>{column.headerName}</TableCell>
+						))}
+						<TableCell>Actions</TableCell>
+					</TableRow>
+				</TableHead>
+				<TableBody>
+					{filteredSuppliers.map((supplier) => (
+						<TableRow key={supplier.s_id}>
+							{columns.map((column) => (
+								<TableCell key={column.field}>
+									{supplier[column.field]}
+								</TableCell>
+							))}
+							<TableCell>
+								<IconButton edge='end' onClick={() => handleEdit(supplier)}>
+									<EditIcon />
+								</IconButton>
+								<IconButton
+									edge='end'
+									onClick={() => handleDelete(supplier.s_id)}
+								>
+									<DeleteIcon />
+								</IconButton>
+							</TableCell>
+						</TableRow>
+					))}
+				</TableBody>
+			</Table>
 		</Container>
 	);
 };
