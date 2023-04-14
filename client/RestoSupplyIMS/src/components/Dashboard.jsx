@@ -89,13 +89,13 @@ const Dashboard = () => {
 			case 0:
 				return <CustomerManagement searchQuery={searchQuery} />;
 			case 1:
-				return <SupplierManagement />;
+				return <SupplierManagement searchQuery={searchQuery}/>;
 			case 2:
-				return <OrderManagement />;
+				return <OrderManagement searchQuery={searchQuery}/>;
 			case 3:
-				return <ProductManagement />;
+				return <ProductManagement searchQuery={searchQuery}/>;
 			case 4:
-				return <UserManagement />;
+				return <UserManagement searchQuery={searchQuery}/>;
 			default:
 				return null;
 		}

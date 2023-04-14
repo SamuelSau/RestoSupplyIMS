@@ -139,21 +139,21 @@ const CustomerManagement = ({ searchQuery }) => {
 					onChange={(e) => setFormData({ ...formData, c_name: e.target.value })}
 				/>
 				<TextField
-					label='Phone'
+					label='Customer Phone'
 					value={formData.c_phone}
 					onChange={(e) =>
 						setFormData({ ...formData, c_phone: e.target.value })
 					}
 				/>
 				<TextField
-					label='Email'
+					label='Customer Email'
 					value={formData.c_email}
 					onChange={(e) =>
 						setFormData({ ...formData, c_email: e.target.value })
 					}
 				/>
 				<TextField
-					label='Address'
+					label='Customer Address'
 					value={formData.c_address}
 					onChange={(e) =>
 						setFormData({ ...formData, c_address: e.target.value })
