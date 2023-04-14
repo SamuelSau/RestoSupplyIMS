@@ -87,7 +87,6 @@ const UserManagement = () => {
 	return (
 		<Container>
 			<Typography variant='h4' gutterBottom className={classes.title}>
-				User Management
 			</Typography>
 			<form onSubmit={handleSubmit} className={classes.form}>
 				<TextField

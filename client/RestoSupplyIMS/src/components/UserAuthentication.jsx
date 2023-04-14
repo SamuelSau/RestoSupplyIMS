@@ -1,26 +1,76 @@
 import React, { useState } from 'react';
-import { Container, Typography, TextField, Button } from '@material-ui/core';
+import {
+	Container,
+	Typography,
+	TextField,
+	Button,
+	Box,
+	Avatar,
+} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { useNavigate } from 'react-router-dom';
 
+import backgroundImage from '../images/background.jpg';
+
 const useStyles = makeStyles((theme) => ({
+	root: {
+		display: 'flex',
+		width: '100vw',
+		minHeight: '100vh',
+		alignItems: 'center',
+		justifyContent: 'center',
+		backgroundImage: `url(${backgroundImage})`,
+		backgroundSize: 'cover',
+		backgroundPosition: 'center',
+		backgroundRepeat: 'no-repeat',
+	},
+	avatar: {
+		backgroundColor: theme.palette.primary.main,
+		marginBottom: theme.spacing(4),
+		height: theme.spacing(24),
+		width: theme.spacing(24),
+		fontSize: theme.typography.pxToRem(24),
+		position: 'absolute',
+		top: '22%',
+		transform: 'translateY(-50%)',
+		zIndex: 0,
+	},
 	title: {
-		color: 'black',
-		textAlign: 'center',
-		fontFamily: 'Roboto',
-		width: '195vh',
+		marginBottom: theme.spacing(2),
+		color: theme.palette.primary.main,
+	},
+	box: {
+		backgroundColor: 'rgba(255, 255, 255, 0.9)',
+		borderRadius: theme.spacing(3),
+		paddingTop: theme.spacing(6),
+		paddingBottom: theme.spacing(6),
+		paddingLeft: theme.spacing(1),
+		paddingRight: theme.spacing(1),
+		marginTop: theme.spacing(10),
+		display: 'flex',
+		flexDirection: 'column',
+		alignItems: 'center',
+		width: '25%',
+		position: 'relative',
+		zIndex: 999,
+		[theme.breakpoints.down('sm')]: {
+			width: '50%',
+		},
 	},
 	form: {
 		display: 'flex',
 		flexDirection: 'column',
-		gap: theme.spacing(4),
-		marginBottom: theme.spacing(10),
-		width: '190vh',
-		justifyContent: 'center', // Center the form vertically
-		alignItems: 'center', // Center the form horizontally
+		gap: theme.spacing(2),
+		marginBottom: theme.spacing(4),
 	},
 	textField: {
-		fontSize: '2rem', // Increase the font size of the text fields
+		fontFamily: 'Roboto',
+		marginBottom: theme.spacing(1),
+	},
+	button: {
+		fontFamily: 'Roboto',
+		paddingTop: theme.spacing(1.2),
+		marginTop: theme.spacing(2),
 	},
 }));
 
@@ -63,28 +113,37 @@ const UserAuthentication = ({ onLoginSuccess }) => {
 	};
 
 	return (
-		<Container>
-			<Typography variant='h4' gutterBottom className={classes.title}>
-				Welcome to RestoSupplyIMS
-			</Typography>
-			<form onSubmit={handleLogin} className={classes.form}>
-				<TextField
-					label='Email'
-					value={email}
-					onChange={(e) => setEmail(e.target.value)}
-					required
-				/>
-				<TextField
-					label='Password'
-					type='password'
-					value={password}
-					onChange={(e) => setPassword(e.target.value)}
-					required
-				/>
-				<Button type='submit' variant='contained' color='secondary'>
-					Login
-				</Button>
-			</form>
+		<Container maxWidth={false} disableGutters className={classes.root}>
+			<Avatar className={classes.avatar}></Avatar>
+			<Box className={classes.box}>
+				<Typography variant='h4' className={classes.title}>
+				</Typography>
+				<form onSubmit={handleLogin} className={classes.form}>
+					<TextField
+						label='Email'
+						value={email}
+						onChange={(e) => setEmail(e.target.value)}
+						required
+						className={classes.textField}
+					/>
+					<TextField
+						label='Password'
+						type='password'
+						value={password}
+						onChange={(e) => setPassword(e.target.value)}
+						required
+						className={classes.textField}
+					/>
+					<Button
+						type='submit'
+						variant='contained'
+						color='primary'
+						className={classes.button}
+					>
+						Login
+					</Button>
+				</form>
+			</Box>
 		</Container>
 	);
 };

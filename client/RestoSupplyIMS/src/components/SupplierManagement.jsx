@@ -79,7 +79,6 @@ const SupplierManagement = () => {
 	return (
 		<Container>
 			<Typography variant='h4' gutterBottom className={classes.title}>
-				Supplier Management
 			</Typography>
 			<form onSubmit={handleSubmit} className={classes.form}>
 				<TextField

@@ -79,7 +79,6 @@ const OrderManagement = () => {
 	return (
 		<Container>
 			<Typography variant='h4' gutterBottom className={classes.title}>
-				Order Management
 			</Typography>
 			<form onSubmit={handleSubmit} className={classes.form}>
 				<TextField
