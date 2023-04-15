@@ -1,18 +1,37 @@
-import { useState } from 'react'
-import './App.css'
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import UserAuthentication from './components/UserAuthentication';
-/*
-import components
-*/
+import Dashboard from './components/Dashboard';
 
 function App() {
-  const [count, setCount] = useState(0)
+	const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  return (
-    <div>
-      <UserAuthentication/>
-    </div>
-  )
+	const handleLoginSuccess = () => {
+		setIsLoggedIn(true);
+	};
+
+	return (
+		<Router>
+			<div className='App'>
+				<Routes>
+					<Route
+						path='/'
+						element={<UserAuthentication onLoginSuccess={handleLoginSuccess} />}
+					/>
+					<Route
+						path='/dashboard'
+						element={
+							isLoggedIn ? (
+								<Dashboard />
+							) : (
+								<UserAuthentication onLoginSuccess={handleLoginSuccess} />
+							)
+						}
+					/>
+				</Routes>
+			</div>
+		</Router>
+	);
 }
 
-export default App
+export default App;
