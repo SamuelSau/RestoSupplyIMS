@@ -35,14 +35,15 @@ const Order = {
 
 const createOrder = async (order) => {
   const insertSql = `
-    INSERT INTO orders (o_cust_id, o_product_id, o_date, o_ship_date, o_price)
-    VALUES ($1, $2, $3, $4, $5)
+    INSERT INTO orders (o_id, o_cust_id, o_product_id, o_date, o_ship_date, o_price)
+    VALUES ($1, $2, $3, $4, $5, $6)
     RETURNING *;
   `;
 
-  const values = [order.cust_id, order.product_id, order.date, order.ship_date, order.price];
+  const values = [order.o_id, order.o_cust_id, order.o_product_id, order.o_date, order.o_ship_date, order.o_price];
+  console.log(values)
   const result = await query(insertSql, values);
-
+  
   return result.rows[0];
 };
 
@@ -66,16 +67,12 @@ const updateOrder = async (orderId, updatedOrderData) => {
     RETURNING *;
   `;
 
-  const values = [
-    updatedOrderData.cust_id,
-    updatedOrderData.product_id,
-    updatedOrderData.date,
-    updatedOrderData.ship_date,
-    updatedOrderData.price,
-    orderId,
-  ];
-
-  const result = await query(updateSql, values);
+  const result = await query(updateSql, [updatedOrderData.o_cust_id,
+    updatedOrderData.o_product_id,
+    updatedOrderData.o_date,
+    updatedOrderData.o_ship_date,
+    updatedOrderData.o_price,
+    orderId]);
 
   return result.rows[0];
 };
@@ -90,7 +87,6 @@ const deleteOrder = async (orderId) => {
   await query(deleteSql, values);
 };
 
-//Retrieve all orders
 const getOrders = async () => {
   const selectSql = `
     SELECT * FROM orders;

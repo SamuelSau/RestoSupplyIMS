@@ -64,10 +64,10 @@ const ProductManagement = ({ searchQuery }) => {
 	});
 
 	const columns = [
-		{ field: 'p_id', headerName: 'Price ID' },
-		{ field: 'p_name', headerName: 'Price Name' },
-		{ field: 'p_supp_id', headerName: 'Price Supplier ID' },
-		{ field: 'p_price', headerName: 'Price Price' },
+		{ field: 'p_id', headerName: 'Product ID' },
+		{ field: 'p_name', headerName: 'Product Name' },
+		{ field: 'p_supp_id', headerName: ' Product Supplier ID' },
+		{ field: 'p_price', headerName: ' Product Price' },
 		{ field: 'p_quantity', headerName: 'Product Quantity' },
 	];
 
@@ -87,7 +87,7 @@ const ProductManagement = ({ searchQuery }) => {
 		} else {
 			await createProduct(formData);
 		}
-		setFormData({ p_name: '', p_description: '', p_price: '' });
+		setFormData({ p_id: '', p_name: '', p_supp_id: '', p_price: '', p_quantity:'' });
 		setSelectedProduct(null);
 		fetchProducts();
 	};
@@ -134,11 +134,7 @@ const ProductManagement = ({ searchQuery }) => {
 				className={classes.title}
 			></Typography>
 			<form onSubmit={handleSubmit} className={classes.form}>
-				<TextField
-					label='Product ID'
-					value={formData.p_id}
-					onChange={(e) => setFormData({ ...formData, p_name: e.target.value })}
-				/>
+				
 				<TextField
 					label='Product Name'
 					value={formData.p_name}

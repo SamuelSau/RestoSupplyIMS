@@ -46,7 +46,7 @@ export const deleteProduct = async (id) => {
   try {
     await axios.delete(`${API_URL}/${id}`);
   } catch (error) {
-    console.error('Error deleting product:', error);
+    console.error('Error deleting product:', error.response.data);
     throw error;
   }
 };

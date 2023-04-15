@@ -72,12 +72,21 @@ const updateCustomer = async (id, customer) => {
 };
 
 const deleteCustomer = async (id) => {
-	const sqlQuery = `
-    DELETE FROM customers
-    WHERE c_id = $1;
-  `;
-	await query(sqlQuery, [id]);
-};
+	// First, delete the related orders
+	const deleteOrdersSql = `
+	  DELETE FROM orders
+	  WHERE o_cust_id = $1;
+	`;
+	await query(deleteOrdersSql, [id]);
+  
+	// Then, delete the customer
+	const deleteCustomerSql = `
+	  DELETE FROM customers
+	  WHERE c_id = $1;
+	`;
+	await query(deleteCustomerSql, [id]);
+  };
+  
 
 module.exports = {
 	...Customer,

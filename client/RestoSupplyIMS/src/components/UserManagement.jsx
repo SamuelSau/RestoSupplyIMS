@@ -64,6 +64,7 @@ const UserManagement = ({ searchQuery }) => {
 	});
 
 	const columns = [
+		{ field: 'u_id', headerName: 'ID'},
 		{ field: 'u_email', headerName: 'Email' },
 		{ field: 'u_password', headerName: 'Password' },
 		{ field: 'first_name', headerName: 'First Name' },

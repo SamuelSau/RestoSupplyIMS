@@ -39,7 +39,7 @@ const createSupplier = async (supplier) => {
 
 const getSupplier = async (id) => {
   const sqlQuery = `
-    SELECT * FROM Suppliers
+    SELECT * FROM suppliers
     WHERE s_id = $1;
   `;
   const result = await query(sqlQuery, [id]);
@@ -48,7 +48,7 @@ const getSupplier = async (id) => {
 
 const getAllSuppliers = async () => {
   const sqlQuery = `
-    SELECT * FROM Suppliers;
+    SELECT * FROM suppliers;
   `;
   const result = await query(sqlQuery);
   return result.rows;
@@ -56,7 +56,7 @@ const getAllSuppliers = async () => {
 
 const updateSupplier = async (id, supplier) => {
   const sqlQuery = `
-    UPDATE Suppliers
+    UPDATE suppliers
     SET s_name = $1, s_phone = $2, s_email = $3, s_address = $4
     WHERE s_id = $5
     RETURNING *;
@@ -72,12 +72,21 @@ const updateSupplier = async (id, supplier) => {
 };
 
 const deleteSupplier = async (id) => {
-  const sqlQuery = `
-    DELETE FROM Suppliers
+  // First, delete the related products
+  const deleteProductsSql = `
+    DELETE FROM products
+    WHERE p_supp_id = $1;
+  `;
+  await query(deleteProductsSql, [id]);
+
+  // Then, delete the supplier
+  const deleteSupplierSql = `
+    DELETE FROM suppliers
     WHERE s_id = $1;
   `;
-  await query(sqlQuery, [id]);
+  await query(deleteSupplierSql, [id]);
 };
+
 
 module.exports = {
   ...Supplier,

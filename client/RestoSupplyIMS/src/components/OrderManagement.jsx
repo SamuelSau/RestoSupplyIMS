@@ -85,9 +85,9 @@ const OrderManagement = ({ searchQuery }) => {
 	const filteredOrders = orders.filter((order) => {
 		return (
 			order.o_id.toString().toLowerCase().includes(searchQuery.toLowerCase()) ||
-			order.o_product_id.toString().toLowerCase().includes(searchQuery.toLowerCase()) ||
 			order.o_cust_id.toString().toLowerCase().includes(searchQuery.toLowerCase()) ||
 			order.o_date.toLowerCase().includes(searchQuery.toLowerCase()) ||
+			order.o_product_id.toString().toLowerCase().includes(searchQuery.toLowerCase()) ||
 			order.o_ship_date.toLowerCase().includes(searchQuery.toLowerCase()) ||
 			order.o_price.toString().toLowerCase().includes(searchQuery.toLowerCase())
 		);
@@ -100,7 +100,7 @@ const OrderManagement = ({ searchQuery }) => {
 		} else {
 			await createOrder(formData);
 		}
-		setFormData({ o_id: '', o_product_id: '', o_cust_id: '', o_date: '', o_ship_date: '', o_price: '' });
+		setFormData({ o_id: '', o_cust_id: '', o_date: '', o_product_id: '', o_ship_date: '', o_price: '' });
 		setSelectedOrder(null);
 		fetchOrders();
 	};
@@ -125,27 +125,11 @@ const OrderManagement = ({ searchQuery }) => {
 			<Typography variant='h4' gutterBottom className={classes.title}>
 			</Typography>
 			<form onSubmit={handleSubmit} className={classes.form}>
-			<TextField
-					label='Order ID'
-					value={formData.o_id}
-					onChange={(e) =>
-						setFormData({ ...formData, o_id: e.target.value })
-					}
-				/>
 				<TextField
 					label='Customer ID'
 					value={formData.o_cust_id}
 					onChange={(e) =>
 						setFormData({ ...formData, o_cust_id: e.target.value })
-					}
-				/>
-				<TextField
-					label='Product Date'
-					type='date'
-					value={formData.o_product_id}
-					InputLabelProps={{ shrink: true }}
-					onChange={(e) =>
-						setFormData({ ...formData, o_product_id: e.target.value })
 					}
 				/>
 				<TextField
@@ -156,14 +140,21 @@ const OrderManagement = ({ searchQuery }) => {
 					}
 				/>
 				<TextField
-					label='Ship Date'
+					label='Order Product ID'
+					value={formData.o_product_id}
+					onChange={(e) =>
+						setFormData({ ...formData, o_product_id: e.target.value })
+					}
+				/>
+				<TextField
+					label='OrderShip Date'
 					value={formData.o_ship_date}
 					onChange={(e) =>
 						setFormData({ ...formData, o_ship_date: e.target.value })
 					}
 				/>
 				<TextField
-				label='Price Date'
+				label='Order Price'
 				value={formData.o_price}
 				onChange={(e) =>
 					setFormData({ ...formData, o_price: e.target.value })

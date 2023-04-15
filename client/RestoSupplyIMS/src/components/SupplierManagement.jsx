@@ -138,12 +138,7 @@ const SupplierManagement = ({ searchQuery }) => {
 				
 			</Typography>
 			<form onSubmit={handleSubmit} className={classes.form}>
-				{/* Add your TextField components here */}
-				<TextField
-					label='Supplier ID'
-					value={formData.s_id}
-					onChange={(e) => setFormData({ ...formData, s_id: e.target.value })}
-				/>
+				
 				<TextField
 					label='Supplier Name'
 					value={formData.s_name}

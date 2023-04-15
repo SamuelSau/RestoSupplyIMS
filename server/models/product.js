@@ -76,12 +76,21 @@ const updateProduct = async (id, product) => {
 };
 
 const deleteProduct = async (id) => {
-  const sqlQuery = `
+  // Delete all related records from the orders table
+  const deleteOrdersSql = `
+    DELETE FROM orders
+    WHERE o_product_id = $1;
+  `;
+  await query(deleteOrdersSql, [id]);
+
+  // Then, delete the product itself
+  const deleteProductSql = `
     DELETE FROM products
     WHERE p_id = $1;
   `;
-  await query(sqlQuery, [id]);
+  await query(deleteProductSql, [id]);
 };
+
 
 module.exports = {
   ...Product,

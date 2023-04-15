@@ -27,7 +27,6 @@ const User = {
 };
 
 const createUser = async (user) => {
-	
 	const sqlQuery = `
     INSERT INTO users (u_email, u_password, first_name, last_name, job_title)
     VALUES ($1, $2, $3, $4, $5)
@@ -83,7 +82,6 @@ const updateUser = async (id, user) => {
 };
 
 const deleteUser = async (id) => {
-	
 	const sqlQuery = `
     DELETE FROM users
     WHERE u_id = $1;
